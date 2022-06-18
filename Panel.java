@@ -31,8 +31,6 @@ public class Panel extends JPanel {
     int w = getWidth();
     int h = getHeight();
     double f = 200.0;
-    int ts = 400;
-    int th = 346;
     points = new ArrayList<>(Arrays.asList(
           new Point(toInt(-Math.sqrt(3.0)/2.0*f),toInt(-1/2.0*f),0), // bottom left
           new Point(toInt(Math.sqrt(3.0)/2.0*f),toInt(-1/2.0*f),0), // bottom right
