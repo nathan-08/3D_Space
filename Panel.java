@@ -30,20 +30,18 @@ public class Panel extends JPanel {
   private void reset_points() {
     int w = getWidth();
     int h = getHeight();
+    double f = 200.0;
     int ts = 400;
     int th = 346;
     points = new ArrayList<>(Arrays.asList(
-          new Point(0, 0,  0), //
-          new Point(-ts/2, -th/2,  0), // bottom left
-          new Point(0, 0,  0), //
-          new Point(ts/2,  -th/2,  0), // bottom right
+          new Point(toInt(-Math.sqrt(3.0)/2.0*f),toInt(-1/2.0*f),0), // bottom left
+          new Point(toInt(Math.sqrt(3.0)/2.0*f),toInt(-1/2.0*f),0), // bottom right
 
-          new Point(-ts/2, -th/2,  0), // bottom left
-          new Point(ts/2,  -th/2,  0) // bottom right
-          //new Point(-ts/2, -th/2,  0), // left lower
-          //new Point(0,     th/2,  0), // left upper
-          //new Point(ts/2,  -th/2,  0), // right lower
-          //new Point(0,     th/2,  0)  // right upper
+          new Point(toInt(-Math.sqrt(3.0)/2.0*f),toInt(-1/2.0*f),0), // left lower
+          new Point(0,toInt(1.0*f),0), // left upper
+
+          new Point(toInt(Math.sqrt(3.0)/2.0*f),toInt(-1/2.0*f),0), // right lower
+          new Point(0,toInt(1.0*f),0)  // right upper
         ));
   }
   public Panel() {
