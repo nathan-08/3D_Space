@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.awt.geom.*; // Point2D, AffineTransform
 
 class Point {
@@ -14,6 +15,7 @@ class Point {
   }
 }
 public class Panel extends JPanel {
+  private ArrayList<Point> points;
   private boolean mouseDown = false;
   private AffineTransform transform;
   private Point prevMousePosition = new Point(0, 0, 0);
@@ -24,6 +26,28 @@ public class Panel extends JPanel {
   }
   public Dimension getPreferredSize() {
     return new Dimension(800, 800);
+  }
+  private void reset_points() {
+    int w = getWidth();
+    int h = getHeight();
+    int ts = 400;
+    int th = 346;
+    points = new ArrayList<>(Arrays.asList(
+          new Point(0, 0,  0), //
+          new Point(-ts/2, -th/2,  0), // bottom left
+          new Point(0, 0,  0), //
+          new Point(ts/2,  -th/2,  0), // bottom right
+
+          new Point(-ts/2, -th/2,  0), // bottom left
+          new Point(ts/2,  -th/2,  0) // bottom right
+          //new Point(-ts/2, -th/2,  0), // left lower
+          //new Point(0,     th/2,  0), // left upper
+          //new Point(ts/2,  -th/2,  0), // right lower
+          //new Point(0,     th/2,  0)  // right upper
+        ));
+  }
+  public Panel() {
+    reset_points();
   }
   public void handleMousePressed() {}
   public void handleMouseReleased() {
@@ -37,17 +61,17 @@ public class Panel extends JPanel {
       delta_x = 0;
       delta_y = 0;
     }
-    if (y > prevMousePosition.y) {
-      angle_z -= Math.PI*(double)delta_y / 400.0;
+    if (y >= prevMousePosition.y) {
+      angle_z -= (Math.PI*(double)delta_y) / 400.0;
     }
     else if (y < prevMousePosition.y) {
-      angle_z += Math.PI*(double)delta_y / 400.0;
+      angle_z += (Math.PI*(double)delta_y) / 400.0;
     }
     if (x > prevMousePosition.x) {
-      angle_y -= Math.PI*(double)delta_x / 400.0;
+      angle_y -= (Math.PI*(double)delta_x) / 400.0;
     }
     else if (x < prevMousePosition.x) {
-      angle_y += Math.PI*(double)delta_x / 400.0;
+      angle_y += (Math.PI*(double)delta_x) / 400.0;
     }
     prevMousePosition.x = x;
     prevMousePosition.y = y;
@@ -94,25 +118,19 @@ public class Panel extends JPanel {
 
     g2d.setColor(new Color(0xa0, 0xa0, 0xf0));
 
-    Point left = new Point (-w/4, 0, 0);
-    Point right = new Point(w/4, 0, 0);
-    Point up = new Point   (0, w/4, 0);
-    Point down = new Point (0, -w/4, 0);
+    reset_points();
+    points.forEach(point -> rotate_z(point, angle_z));
+    points.forEach(point -> rotate_y(point, angle_y));
 
-    rotate_z(left,  angle_z);
-    rotate_z(right, angle_z);
-    rotate_z(up,    angle_z);
-    rotate_z(down,  angle_z);
-
-    rotate_y(left,  angle_y);
-    rotate_y(right, angle_y);
-    rotate_y(up,    angle_y);
-    rotate_y(down,  angle_y);
-
-    g2d.setStroke(new BasicStroke(20));
-    if (mouseDown) g2d.setColor(Color.orange);
-    g2d.drawLine(left.x, left.y, right.x, right.y);
-    g2d.drawLine(up.x, up.y, down.x, down.y);
+    g2d.setStroke(new BasicStroke(10, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
+    for (int i = 0; i < points.size()-1; ++i) {
+      Point p = points.get(i);
+      Point q = points.get(i+1);
+      g2d.drawLine( p.x,
+                    p.y,
+                    q.x,
+                    q.y );
+    }
   }
 }
 
