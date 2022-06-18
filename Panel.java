@@ -15,8 +15,6 @@ class Point {
 }
 public class Panel extends JPanel {
   private boolean mouseDown = false;
-  private ArrayList<Integer> xvals = new ArrayList<>();
-  private ArrayList<Integer> yvals = new ArrayList<>();
   private AffineTransform transform;
   private Point prevMousePosition = new Point(0, 0, 0);
   private double angle_z = 0.0;
@@ -27,9 +25,7 @@ public class Panel extends JPanel {
   public Dimension getPreferredSize() {
     return new Dimension(800, 800);
   }
-  public void handleMousePressed() {
-    //mouseDown = true;
-  }
+  public void handleMousePressed() {}
   public void handleMouseReleased() {
     mouseDown = false;
   }
