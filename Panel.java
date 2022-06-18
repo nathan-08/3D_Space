@@ -28,8 +28,6 @@ public class Panel extends JPanel {
     return new Dimension(800, 800);
   }
   private void reset_points() {
-    int w = getWidth();
-    int h = getHeight();
     double f = 200.0;
     points = new ArrayList<>(Arrays.asList(
           new Point(toInt(-Math.sqrt(3.0)/2.0*f),toInt(-1/2.0*f),0), // bottom left
